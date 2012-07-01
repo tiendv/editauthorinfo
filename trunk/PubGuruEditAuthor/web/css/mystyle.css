@@ -1,0 +1,383 @@
+.g_button {
+    display: inline-block;
+    min-width: 46px;
+    text-align: center;
+    color: #444;
+    font-size: 11px;
+    font-weight: bold;
+    height: 27px;
+    padding: 0 8px;
+    line-height: 27px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    -webkit-transition: all 0.218s;
+    -moz-transition: all 0.218s;
+    -ms-transition: all 0.218s;
+    -o-transition: all 0.218s;
+    transition: all 0.218s;
+    border: 1px solid gainsboro;
+    background-color: whiteSmoke;
+    background-image: -webkit-gradient(linear,left top,left bottom,from(whiteSmoke),to(#F1F1F1));
+    background-image: -webkit-linear-gradient(top,whiteSmoke,#F1F1F1);
+    background-image: -moz-linear-gradient(top,whiteSmoke,#F1F1F1);
+    background-image: -ms-linear-gradient(top,whiteSmoke,#F1F1F1);
+    background-image: -o-linear-gradient(top,whiteSmoke,#F1F1F1);
+    background-image: linear-gradient(top,whiteSmoke,#F1F1F1);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+.g_button_submit {
+    border: 1px solid #3079ED;
+    color: white !important;
+    text-shadow: 0 1px rgba(0, 0, 0, 0.1);
+    background-color: #4D90FE;
+    background-image: -webkit-gradient(linear,left top,left bottom,from(#4D90FE),to(#4787ED));
+    background-image: -webkit-linear-gradient(top,#4D90FE,#4787ED);
+    background-image: -moz-linear-gradient(top,#4D90FE,#4787ED);
+    background-image: -ms-linear-gradient(top,#4D90FE,#4787ED);
+    background-image: -o-linear-gradient(top,#4D90FE,#4787ED);
+    background-image: linear-gradient(top,#4D90FE,#4787ED);
+}
+/*******tool-24*********/
+a.tool-24{
+	padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 20px;
+        padding-bottom: 10px;
+        background-position: center;
+        background-repeat: no-repeat;
+        }
+a.loading{
+    width:100%;
+    background-image:url(../images/editauthor/loading.gif); 
+    background-size: 100%;	
+}
+/****************Login Form************************/
+
+#login_wrapper {
+    width: 605px;
+    height: 311px;
+    background: url("../images/editauthor/bg_login_1.png") no-repeat 0 0;
+    position: absolute;
+    left: 50%;
+    top: 45%;
+    margin-left: -302px;
+    margin-top: -150px;
+}
+
+#login_wrapper .input_login_wrapper {
+    width: 563px;
+    height: 268px;
+    background: url("../images/editauthor/bg_login_2.png") no-repeat 0 0;
+    margin: 21px 0 0 21px;
+    float: left;
+}
+
+.login_form{
+    margin-left: 200px;
+    margin-top: 90px;
+}
+
+.login_title, 
+.login_title a,
+.login_title a:active{
+    font-size: 18px;
+    color: #01549B;
+    padding-bottom: 10px;
+    width: auto;
+    font-family: Arial;
+}
+
+.login_label {
+    color: #01549B;
+    text-transform: uppercase;
+    padding: 4px 0px 4px 0px;
+    float: left;    
+    font-size: 13px;
+    display: block;
+    width: 120px;
+    text-align: right;
+}
+.login_input{
+    width: 192px;
+    height: 23px;
+    background: url("../images/editauthor/bg_input_login.png") no-repeat 0 0;
+    margin-left: 23px;
+    margin-bottom: 11px;
+    position: relative;
+    float: left;
+}
+.login_input input{
+    background: none;
+    margin: 0;
+    padding: 0px;
+    border: none;
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    width: 186px;
+}
+.login_chk_save{
+    margin-left: 48px;
+}
+
+.login_submit{
+    margin-left: 48px;
+    margin-top: 10px;
+}
+
+/*****************Register Form*************************/
+.label{
+    text-align: left;
+    width: 120px;
+    padding-top: 10px;
+}
+
+.warning{
+    color: #FF6600;
+    display: none;
+}
+
+.input_captcha{
+    width: 148px;
+}
+.register_wrapper{
+    top: 50px;
+    position: relative;
+}
+.register_form{
+    width: 474px;
+    margin-left: 400px;
+}
+
+.register_form input[type="text"],.register_form input[type="password"]{
+    width: 274px;
+}
+
+.register_form table {
+    border-collapse: separate;
+    border-spacing: 0 5px;
+    position: absolute;
+    top: 100px;
+    width:30%;
+    
+}
+
+.example {
+    line-height: 15px;
+    color: #7F8289;
+    font-style: italic;
+}
+
+
+.register_form #submit_button{
+    margin-left: 130px;
+}
+
+/************************************/
+.result_title {
+    font-size: 20px;
+    padding-bottom: 20px;
+    display: block;
+}
+
+.result_message{
+position: relative;
+top: 50px;
+left: 200px;
+width: 450px;
+}
+
+.message_sucessness{
+    position: relative;
+    left: -50px;
+    top: 40px;
+}
+
+/************Edit Author*****************/
+
+.edit_author_box table{
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0px 5px;
+}
+.edit_author_box input[type="text"]{
+    width: 270px;
+}
+
+.edit_author_box input.longblock, .edit_author_box textarea.longblock{
+    width: 450px;
+}
+.edit_author_box .comment{
+    height: 80px;
+}
+
+/**************************************/
+/*             SIDEBAR                */
+/**************************************/
+#sidebar {
+	float:left;
+	margin-right:20px;
+	font-size:1.2em;
+	width:230px;
+        margin-left: 100px;
+}
+#sidebar, #sidebar .bInner, #sidebar .bTR, #sidebar .bBL {
+	/*background-image:url(../images/editauthor/sidebar.png)*/
+}
+
+#sidebar ul {
+	margin:0px;
+}
+#side-nav li{
+	list-style:none;
+	margin-bottom:5px;
+}
+/* Must use classes because pseudo-classes :first-child and :last-child aren't well implemented everywhere */
+#sidebar ul li.first {
+	background-position:0px 0px;
+	padding-top:10px;
+}
+#sidebar ul li.last {
+	background-position:0px 100%;
+	padding-bottom:10px;
+}
+#sidebar li a.button {
+	margin:0;
+
+}
+#sidebar li a.button strong{
+
+}
+#sidebar .icon{
+	margin:1px 5px 5px 0;
+
+}
+#sidebar li ul {
+	margin:0px;
+	clear:both;
+}
+#sidebar li ul li {
+	list-style:disc outside;
+	margin-left:50px;
+	background:none;
+	margin-bottom:0;
+	vertical-align:middle;
+}
+#sidebar li ul li a {
+	display:block;
+	padding-bottom:5px;
+}
+#sidebar li ul li a:hover {
+	display:block;
+	padding-left:5px;
+	padding-bottom:5px;
+}
+#sidebar li ul li.active a {
+	font-weight:bold;
+}
+.JS #sidebar .inactive ul{
+	display:none;
+}
+
+/**
+ * ***********************List*******************************
+ */
+table.list {
+	border-collapse: collapse;
+	width: 100%;
+	border-top: 1px solid #DDDDDD;
+	border-left: 1px solid #DDDDDD;
+	margin: 0px;
+	
+	
+}
+table.list td {
+	border-right: 1px solid #DDDDDD;
+	border-bottom: 1px solid #DDDDDD;
+}
+table.list thead td {
+	background-color: #EFEFEF;
+	padding: 0px 5px;
+}
+table.list thead td a, .list thead td {
+	text-decoration: none;
+	color: #222222;
+	font-weight: bold;
+}
+table.list tbody td a {
+	text-decoration: underline;
+}
+table.list tbody td {
+	/*vertical-align: top;*/
+	padding: 5px 5px;
+}
+table.list .left {
+	text-align: left;
+	padding: 7px;
+}
+table.list .right {
+	text-align: right;
+	padding: 7px;
+}
+table.list .center {
+	text-align: center;
+	padding: 7px;
+}
+
+
+/**************************************/
+/*             Feed_back Manager              */
+/**************************************/
+
+.list_feedback_wrapper{
+    
+}
+.list_feedback_wrapper table{    
+    margin-top: 10px;
+    border: 2px solid #DDDDDD;
+}
+.list_feedback_wrapper table td{
+    border-right: 1px solid #DDD;
+    border-bottom: 1px solid #DDD; 
+}
+
+.confirm_edit_wrapper table.tbinfo,
+.confirm_edit_wrapper table.tbinfo tbody,
+.confirm_edit_wrapper table.tbinfo tbody tr{
+    display: block;
+    overflow: hidden;    
+}
+
+.confirm_edit_wrapper table.tbinfo input[type="text"], .confirm_edit_wrapper table.tbinfo textarea{
+    width:90%;    
+}
+
+.confirm_edit_wrapper table.tbinfo .content1{
+    width:45%; 
+    text-align:right;
+}
+.confirm_edit_wrapper table.tbinfo .content2{
+    width:45%; 
+    text-align:right;
+}
+.confirm_edit_wrapper .label{
+    width:100px;    
+}
+
+.confirm_edit_wrapper table#tb2{
+    
+}
+
+#title1{
+   text-align: center; 
+   font-weight: bold;
+}
+
+#title2{
+   text-align: center; 
+   font-weight: bold;
+}
