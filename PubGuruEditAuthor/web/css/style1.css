@@ -1,0 +1,115 @@
+html {
+    height:100%; /*important for sticky footer*/
+}
+body {
+    background: #FFFFFF;
+    color: #222222;
+    font-size: 13px;
+    margin: 0;
+    padding: 0;
+    height:95%; /*important for sticky footer*/
+    width: 100%;
+    min-width: 780px;/* a min-width may be desirable to keep this layout from getting too narrow. This keeps line length more readable in the side columns. IE6 does not respect this declaration. */
+}
+/* ~~ Element/tag selectors ~~ */
+ul, ol, dl {
+    padding: 0;
+    margin: 0;
+}
+ul {
+    list-style: none;
+}
+h1, h2, h3, h4, h5, h6, p {
+    margin-top: 0;
+    padding-right: 15px;
+    padding-left: 15px;
+    font-family: Arial, sans-serif;
+}
+a img { /* this selector removes the default blue border displayed in some browsers around an image when it is surrounded by a link */
+    border: none;
+}
+a:link, a:visited {
+    color:#3094B9;
+    font-family: Arial, sans-serif;
+    text-decoration:none;
+    font-size:10pt;
+}
+a:hover {
+    text-decoration: underline;
+}
+a:active, a:focus { /* this group of selectors will give a keyboard navigator the same hover experience as the person using a mouse. */
+    color: #FF8813;
+}
+input, select {
+    font-family: inherit;
+    margin: 0px;
+    padding: 0px;
+}
+input[type="submit"]{
+    cursor:pointer;
+}
+
+.wrapper { 
+    min-height: 95%;    
+}
+
+.push {
+    height:35px; /* .push must be the same height as .footer */
+}
+
+
+
+/*********Header***********/
+.header {
+    background-color: #BFBFBF;
+    background-repeat: repeat-x;
+    display: inline-block;
+    background-image: url('../images/header-bg.png') !important;
+    border-bottom: 1px solid #A5A2A2;
+    font-size: 13px;
+    font-weight: bold;
+    opacity: 1;
+    width: 100%;
+    height:25px;
+    padding-top:10px;
+}
+
+.header .menutop {
+font-size: 13px;
+font-weight: bold;
+margin: 0 auto;
+width: 998px;
+}
+
+.header .menutop ol{
+/*float: left;*/
+}
+
+.headerli {
+display: inline;
+list-style-type: none;
+padding: 10px;
+font-family: Arial, sans-serif;
+}
+
+/******Footer******/
+.footer {
+    clear: both;
+    color: #666666;
+    font-size: 13px;
+    height: 35px;
+}
+.footerli {
+display: inline;
+list-style-type: none;
+padding: 1px;
+font-family: Arial, sans-serif;
+}
+
+/***************/
+.content {
+    font-family: Arial, sans-serif;
+    padding-top:10px 0;
+    height:auto;
+}
+
