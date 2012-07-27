@@ -175,7 +175,6 @@ public class Author {
                 int authorId = rs.getInt("idAuthor");
                 String authorName = rs.getString("authorName");
                 String imageUrl = rs.getString("image");
-                System.out.print("ASDFASDF " + imageUrl);
                 String emailAddress = rs.getString("emailAddress");
                 String website = rs.getString("website");
                 String url = rs.getString("url");
