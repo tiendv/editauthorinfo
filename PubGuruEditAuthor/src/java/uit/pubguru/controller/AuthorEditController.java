@@ -116,10 +116,12 @@ public class AuthorEditController extends HttpServlet {
             if(email_.equals(null))
                 email_="";
             String imageurl_=au.getImageUrl();
-            if(imageurl_.equals(null))
-                imageurl_="";
+             System.out.print("ASDFASDFa234 " + imageurl_);
+           if(imageurl_==(null))
+               imageurl_="";
+
             String homepage_=au.getUrl();
-            if(homepage_.equals(null))
+            if(homepage_==(null))
                 homepage_="";
             for (int i = 1; i < array.length - 1; i++) {
                 middleName_ += array[i];
@@ -177,11 +179,11 @@ public class AuthorEditController extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(AuthorEditController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            au.closeConnection();
-            fbd.closeConnection();
-            author.closeConnection();
-            feedback.closeConnection();
-            usermodel.closeConnection();
+//            au.closeConnection();
+//            fbd.closeConnection();
+//            author.closeConnection();
+//            feedback.closeConnection();
+//            usermodel.closeConnection();
         }
     }
 

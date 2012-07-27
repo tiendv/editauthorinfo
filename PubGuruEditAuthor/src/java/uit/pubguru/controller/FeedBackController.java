@@ -125,7 +125,7 @@ public class FeedBackController extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(FeedBackController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            feed.closeConnection();
+//            feed.closeConnection();
         }
     }
 
@@ -277,10 +277,10 @@ public class FeedBackController extends HttpServlet {
                     } catch (Exception ex) {
                         Logger.getLogger(FeedBackController.class.getName()).log(Level.SEVERE, null, ex);
                     } finally {
-                        feeddetails.closeConnection();
-                         feed.closeConnection();
-                        author.closeConnection();
-                        authorD.closeConnection();
+//                        feeddetails.closeConnection();
+//                         feed.closeConnection();
+//                        author.closeConnection();
+//                        authorD.closeConnection();
                     }
                 } else {
                     request.setAttribute("pageName", PubGuruConst.PER_ERror_PAGE);
@@ -402,11 +402,11 @@ public class FeedBackController extends HttpServlet {
             Logger.getLogger(FeedBackController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             out.close();
-            fee.closeConnection();
-            fbdt.closeConnection();
-            user.closeConnection();
-            author.closeConnection();
-            au.closeConnection();
+//            fee.closeConnection();
+//            fbdt.closeConnection();
+//            user.closeConnection();
+//            author.closeConnection();
+//            au.closeConnection();
         }
     }
 
@@ -445,10 +445,10 @@ public class FeedBackController extends HttpServlet {
             Logger.getLogger(FeedBackController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             out.close();
-            fee.closeConnection();
-            user.closeConnection();
-            au.closeConnection();
-            author.closeConnection();
+//            fee.closeConnection();
+//            user.closeConnection();
+//            au.closeConnection();
+//            author.closeConnection();
 
         }
     }

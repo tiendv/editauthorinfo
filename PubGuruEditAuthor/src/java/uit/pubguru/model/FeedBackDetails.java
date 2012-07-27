@@ -4,19 +4,13 @@
  */
 package uit.pubguru.model;
 
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.PreparedStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.naming.NamingException;
 import uit.pubguru.dbconnection.ConnectionService;
-import uit.pubguru.dbconnection.ConnectionServicePubDB;
 
 /**
  *
@@ -28,6 +22,7 @@ public class FeedBackDetails {
     private int feedBackId;
     private String name;
     private int status;
+    private Connection connection;
 
     /**
      * @return the feedBackId
@@ -71,30 +66,34 @@ public class FeedBackDetails {
         this.status = status;
     }
 
-    public boolean insert_fbdetail( int feedbackid, String name, int status) {
+    public boolean insert_fbdetail(int feedbackid, String name, int status) throws SQLException, NamingException {
+        boolean in = false;
         try {
-            Connection connection = ConnectionService.getConnection();
+            openConnection();
             String sql = "INSERT INTO feedbackdetail (feedBackId, name, status) " + "VALUES(?,?, ?)";
             PreparedStatement stm = (PreparedStatement) connection.prepareStatement(sql);
-            stm.setInt(1,feedbackid);
+            stm.setInt(1, feedbackid);
             stm.setString(2, name);
-            stm.setInt(3,status);
+            stm.setInt(3, status);
             int result = stm.executeUpdate();
             stm.close();
             if (result > 0) {
-                return true;
+                in = true;
             }
 
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            closeConnection();
         }
-        return false;
+        return in;
     }
     // update status
 
-    public boolean update_fbdetail(int status, int feedbackid, String name) {
+    public boolean update_fbdetail(int status, int feedbackid, String name) throws SQLException, NamingException {
+        boolean up = false;
         try {
-            Connection connection = ConnectionService.getConnection();
+            openConnection();
             String sql = "UPDATE feedbackdetail set status =? where feedBackId = ? and name = ?";
             PreparedStatement stm = (PreparedStatement) connection.prepareStatement(sql);
             stm.setInt(1, status);
@@ -103,21 +102,23 @@ public class FeedBackDetails {
             int result = stm.executeUpdate();
             stm.close();
             if (result > 0) {
-                return true;
+                up = true;
             }
 
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            closeConnection();
         }
-        return false;
+        return up;
     }
     //get feeback status
 
-    public int getStatus(int feedbackid, String name) {
+    public int getStatus(int feedbackid, String name) throws SQLException, NamingException {
         int fb = 0;
 
         try {
-            Connection connection = ConnectionService.getConnection();
+            openConnection();
             String sql = "SELECT * FROM feedbackdetail where feedBackId =? and name =? ";
             PreparedStatement pst = (PreparedStatement) connection.prepareStatement(sql);
             pst.setInt(1, feedbackid);
@@ -131,15 +132,17 @@ public class FeedBackDetails {
 
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            closeConnection();
         }
         return fb;
     }
     // get feedbackdetails by feedbackid and name
 
-    public FeedBackDetails getDetail(int feedbackid, String name) {
+    public FeedBackDetails getDetail(int feedbackid, String name) throws SQLException, NamingException {
         FeedBackDetails fb = new FeedBackDetails();
         try {
-            Connection connection = ConnectionService.getConnection();
+            openConnection();
             String sql = "SELECT * FROM feedbackdetail where feedBackId =? and name =? ";
             PreparedStatement pst = (PreparedStatement) connection.prepareStatement(sql);
             pst.setInt(1, feedbackid);
@@ -151,18 +154,21 @@ public class FeedBackDetails {
                 fb.setName(sr.getString("name"));
                 fb.setStatus(sr.getInt("status"));
             }
-           pst.close();
+            pst.close();
 
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            closeConnection();
         }
         return fb;
     }
     // get lis feebackdetails by feebackid
 
-    public FeedBackDetails[] getList_byFeeBackId(int feeBackId) {
+    public FeedBackDetails[] getList_byFeeBackId(int feeBackId) throws SQLException, NamingException {
+        FeedBackDetails[] result = null;
         try {
-            Connection connection = ConnectionService.getConnection();
+            openConnection();
             String sql = "SELECT * FROM feedbackdetail where feedBackId =?  ";
             PreparedStatement pst = (PreparedStatement) connection.prepareStatement(sql);
             pst.setInt(1, feeBackId);
@@ -175,21 +181,23 @@ public class FeedBackDetails {
                 fbd.setStatus(sr.getInt("status"));
                 list.add(fbd);
             }
-            FeedBackDetails[] result = new FeedBackDetails[list.size()];
+            result = new FeedBackDetails[list.size()];
             list.toArray(result);
             pst.close();
-            return result;
+
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            closeConnection();
         }
-        return null;
+        return result;
     }
-     public void closeConnection() throws NamingException, SQLException
-    {
-        try {
-            ConnectionServicePubDB.getConnection().close();
-        } catch (NamingException ex) {
-            Logger.getLogger(Author.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+    public void openConnection() throws NamingException, SQLException {
+        connection = ConnectionService.getConnection();
+    }
+
+    public void closeConnection() throws NamingException, SQLException {
+        connection.close();
     }
 }

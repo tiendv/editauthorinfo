@@ -28,19 +28,20 @@ public class AuthorController extends HttpServlet {
             throws ServletException, IOException, Exception {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        //ConnDb connDb = new ConnDb();
         Author au = new Author();
-        try {
-//            au = new Author();
+        Author[] result = null;
+        try {           
             String action = request.getParameter("action");
             if (action.equals("getList")) {
-                Author[] result = au.list_Author(15,15);
+                result = au.list_Author(15, 15);
                 request.setAttribute("ListAuthor", result);
                 request.setAttribute("pageName", PubGuruConst.AUTHORLIST_PAGE);
                 RequestDispatcher rd = request.getRequestDispatcher(PubGuruConst.FRONT_TEMPLATE_PAGE);
                 rd.forward(request, response);
             } else if (action.equals("getInfo")) {
-                // return Json info on Author ID
-                // Input: authorID
+//                // return Json info on Author ID
+//                // Input: authorID
                 String authorID = request.getParameter("authorID");
                 au = au.getAuthorById(Integer.parseInt(authorID));
                 String[] array = au.getAuthorName().split(" ");
@@ -66,8 +67,8 @@ public class AuthorController extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            au.closeConnection();
-             out.close();
+            //connDb.closeConnection();
+            out.close();
         }
     }
 

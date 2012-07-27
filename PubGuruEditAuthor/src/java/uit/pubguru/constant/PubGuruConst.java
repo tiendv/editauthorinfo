@@ -1,8 +1,9 @@
 package uit.pubguru.constant;
 
-public class PubGuruConst {
+import com.mysql.jdbc.Connection;
 
-    public static final String DATABASE                 = "pubgurueditauthor";
+public class PubGuruConst {
+    public static final String DATABASE                 = "author_edit";
     public static final String USER_DB                  = "root";
     public static final String PASS_DB                  = "root";
     public static final String PUBDATABASE              = "cspublicationcrawler";
