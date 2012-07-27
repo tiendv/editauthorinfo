@@ -151,10 +151,10 @@ public class UserController extends HttpServlet {
         } catch (Exception e) {
             out.print(e.getMessage());
         } finally {           
-          user.closeConnection();
-          user1.closeConnection();
-          ct.closeConnection();           
-           log.closeConnection();
+//          user.closeConnection();
+//          user1.closeConnection();
+//          ct.closeConnection();
+//           log.closeConnection();
            out.close();
         }
     }
@@ -208,8 +208,8 @@ public class UserController extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            user.closeConnection();
-            log.closeConnection();
+//            user.closeConnection();
+//            log.closeConnection();
         }
     }
 
@@ -247,7 +247,7 @@ public class UserController extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            user.closeConnection();
+//            user.closeConnection();
         }
     }
 
@@ -319,8 +319,8 @@ public class UserController extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            user.closeConnection();
-            log.closeConnection();
+//            user.closeConnection();
+//            log.closeConnection();
         }
     }
 
@@ -362,8 +362,8 @@ public class UserController extends HttpServlet {
         catch (Exception ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            user.closeConnection();
-            log.closeConnection();
+//            user.closeConnection();
+//            log.closeConnection();
         }
     }
     // </editor-fold>

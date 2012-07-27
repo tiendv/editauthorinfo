@@ -4,29 +4,24 @@ package uit.pubguru.dbconnection;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.PreparedStatement;
-import java.lang.reflect.Array;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
+import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import uit.pubguru.constant.PubGuruConst;
+import javax.sql.DataSource;
+
 
 /**
  *
  * @author ThanhIT
  */
 public class ConnectionService {
-     public static Connection getConnection() throws NamingException, SQLException {
-            Connection connection = null;
-            String connecttionURL = "jdbc:mysql://localhost:3306/"+PubGuruConst.DATABASE;
-          try {
-              Class.forName("com.mysql.jdbc.Driver").newInstance();
-              connection = (Connection) DriverManager.getConnection(connecttionURL, PubGuruConst.USER_DB, PubGuruConst.PASS_DB);
+
+    public static Connection getConnection() throws NamingException, SQLException {
+        Connection connection = null;
+        try {
+            DataSource ds = (DataSource) new InitialContext().lookup("jdbc/author_edit");
+            connection = ds.getConnection();
         }
         catch (Exception ex) {
             ex.printStackTrace();

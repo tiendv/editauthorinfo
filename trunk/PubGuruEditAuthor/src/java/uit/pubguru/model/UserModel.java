@@ -33,6 +33,7 @@ public class UserModel {
     private int actived;
     private String dateRegister;
     private String organization;
+    private Connection connection;
 
     public UserModel(String email, String pass, String fullname, String country, int permission, int actived, String org) {
         this.emailAddress = email;
@@ -146,32 +147,33 @@ public class UserModel {
     }
     // Check login with email and password,if actived = 1( user have already actived account through email) =>> can login!
 
-    public boolean checkLogin(String email, String password) {
+    public boolean checkLogin(String email, String password) throws SQLException, NamingException {
         try {
-            Connection connection = ConnectionService.getConnection();
+            openConnection();
             String sql = "SELECT * FROM user Where emailAddress= ? and passWord = ? and actived = '" + PubGuruConst.ACTIVED + "'";
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.setString(1, email);
             pst.setString(2, password);
             ResultSet sr = pst.executeQuery();
             boolean result = sr.next();
-
-            connection.close();
             if (result) {
                 return true;
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            closeConnection();
         }
         return false;
 
     }
     // Insert user to database
 
-    public boolean insert(UserModel user) {
+    public boolean insert(UserModel user) throws SQLException, NamingException {
+        boolean in = false;
         try {
             LogModel lg = new LogModel();
-            Connection connection = ConnectionService.getConnection();
+            openConnection();
             String sql = "INSERT INTO user (emailAddress, passWord, fullName, permissionId, actived, country, dateRegister, organization) " + "VALUES(?,?,?,?,?,?,?,?)";
             PreparedStatement stm = (PreparedStatement) connection.prepareStatement(sql);
             stm.setString(1, user.getEmailAddress());
@@ -186,56 +188,67 @@ public class UserModel {
             stm.close();
             connection.close();
             if (result > 0) {
-                return true;
+                in = true;
             }
 
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            closeConnection();
         }
-        return false;
+        return in;
     }
     // check exist email,
 
-    public boolean checkEmail(String email) {
+    public boolean checkEmail(String email) throws SQLException, NamingException {
+
+        boolean check = false;
         try {
-            Connection connection = ConnectionService.getConnection();
+            openConnection();
             String sql = "SELECT * FROM user Where emailAddress= ? ";
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.setString(1, email);
             ResultSet sr = pst.executeQuery();
-            boolean result = sr.next(); pst.close();
+            boolean result = sr.next();
+            pst.close();
             if (result) {
-                return true;
+                check = true;
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            closeConnection();
         }
-        return false;
+        return check;
 
     }
 
     // active user acount ( update actived value to 1  : actived )
-    public boolean activeUser(int id) {
+    public boolean activeUser(int id) throws SQLException, NamingException {
+        boolean ac = false;
         try {
-            Connection connection = ConnectionService.getConnection();
+            openConnection();
             String sql = "Update user set actived = '" + PubGuruConst.ACTIVED + "' Where id = ?";
             PreparedStatement stm = (PreparedStatement) connection.prepareStatement(sql);
             stm.setInt(1, id);
             int result = stm.executeUpdate();
             stm.close();
             if (result > 0) {
-                return true;
+                ac = true;
             }
 
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            closeConnection();
         }
-        return false;
+        return ac;
     }
 
-    public boolean updatePer(int id, int per) { // update user, if per =2 : user is disenable, else : per#2
+    public boolean updatePer(int id, int per) throws SQLException, NamingException { // update user, if per =2 : user is disenable, else : per#2
+        boolean up = false;
         try {
-            Connection connection = ConnectionService.getConnection();
+            openConnection();
             String sql = "Update user set permissionId = ? Where id = ?";
             PreparedStatement stm = (PreparedStatement) connection.prepareStatement(sql);
             stm.setInt(1, per);
@@ -243,18 +256,21 @@ public class UserModel {
             int result = stm.executeUpdate();
             stm.close();
             if (result > 0) {
-                return true;
+                up = true;
             }
 
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            closeConnection();
         }
-        return false;
+        return up;
     }
 
-    public boolean changePass(int id, String pass) { ///change password
+    public boolean changePass(int id, String pass) throws SQLException, NamingException { ///change password
+        boolean cha = false;
         try {
-            Connection connection = ConnectionService.getConnection();
+            openConnection();
             String sql = "Update user set passWord = ? Where id = ?";
             PreparedStatement stm = (PreparedStatement) connection.prepareStatement(sql);
             stm.setString(1, pass);
@@ -262,39 +278,43 @@ public class UserModel {
             int result = stm.executeUpdate();
             stm.close();
             if (result > 0) {
-                return true;
+                cha = true;
             }
 
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            closeConnection();
         }
-        return false;
+        return cha;
     }
     //select max id from user ; return 0 : don't have any row in database, else : maxid
 
-    public int maxId() {
+    public int maxId() throws SQLException, NamingException {
         int maxId = 0;
         try {
-            Connection connection = ConnectionService.getConnection();
+            openConnection();
             String sql = "SELECT max(id) FROM user ";
             PreparedStatement pst = connection.prepareStatement(sql);
             ResultSet sr = pst.executeQuery();
             while (sr.next()) {
                 maxId = sr.getInt("max(id)");
             }
-          pst.close();
+            pst.close();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            closeConnection();
         }
         return maxId;
 
     }
     // get username(email) by id
 
-    public String name_byId(int id) {
+    public String name_byId(int id) throws SQLException, NamingException {
         String emailaddress = "";
         try {
-            Connection connection = ConnectionService.getConnection();
+            openConnection();
             String sql = "SELECT emailAddress FROM user where id =? ";
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.setInt(1, id);
@@ -305,15 +325,17 @@ public class UserModel {
             pst.close();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            closeConnection();
         }
         return emailaddress;
     }
     // get username(email) by id
 
-    public UserModel getUser_byId(int id) {
+    public UserModel getUser_byId(int id) throws SQLException, NamingException {
         UserModel user = new UserModel();
         try {
-            Connection connection = ConnectionService.getConnection();
+            openConnection();
             String sql = "SELECT * FROM user where id =? ";
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.setInt(1, id);
@@ -329,14 +351,17 @@ public class UserModel {
             pst.close();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            closeConnection();
         }
         return user;
     }
     // get all user 
 
-    public UserModel[] getList_All(int start, int limit) {
+    public UserModel[] getList_All(int start, int limit) throws SQLException, NamingException {
+        UserModel[] result = null;
         try {
-            Connection connection = ConnectionService.getConnection();
+            openConnection();
             String sql = "SELECT * FROM user limit ?,? ";
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.setInt(1, start);
@@ -355,20 +380,23 @@ public class UserModel {
                 user.setOrganization(sr.getString("organization"));
                 list.add(user);
             }
-            UserModel[] result = new UserModel[list.size()];
-            list.toArray(result);pst.close();
-            return result;
+            result = new UserModel[list.size()];
+            list.toArray(result);
+            pst.close();
+
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            closeConnection();
         }
-        return null;
+        return result;
     }
     //count row
 
-    public int rowsResult() {
+    public int rowsResult() throws SQLException, NamingException {
         int count = 0;
         try {
-            Connection connection = ConnectionService.getConnection();
+            openConnection();
             String sql = "SELECT * FROM user";
             PreparedStatement pst = connection.prepareStatement(sql);
             ResultSet sr = pst.executeQuery();
@@ -379,6 +407,8 @@ public class UserModel {
             pst.close();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            closeConnection();
         }
         return count;
     }
@@ -386,9 +416,10 @@ public class UserModel {
     // actived = 0 : hanvent actied yet
     // actived = 1 : have already actived!
 
-    public UserModel[] getList_byActived(int actived, int start, int limit) {
+    public UserModel[] getList_byActived(int actived, int start, int limit) throws SQLException, NamingException {
+        UserModel[] result = null;
         try {
-            Connection connection = ConnectionService.getConnection();
+            openConnection();
             String sql = "SELECT * FROM user where actived = ? limit ?,? ";
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.setInt(1, actived);
@@ -408,21 +439,24 @@ public class UserModel {
                 user.setOrganization(sr.getString("organization"));
                 list.add(user);
             }
-            UserModel[] result = new UserModel[list.size()];
+            result = new UserModel[list.size()];
             list.toArray(result);
             pst.close();
             return result;
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            closeConnection();
         }
-        return null;
+        return result;
     }
     // get username by email
 
-    public UserModel getUser_byId(String email) {
+    public UserModel getUser_byId(String email) throws SQLException, NamingException {
         UserModel user = new UserModel();
+
         try {
-            Connection connection = ConnectionService.getConnection();
+            openConnection();
             String sql = "SELECT * FROM user where emailAddress =? ";
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.setString(1, email);
@@ -441,6 +475,8 @@ public class UserModel {
             pst.close();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            closeConnection();
         }
         return user;
     }
@@ -487,11 +523,11 @@ public class UserModel {
         this.organization = organization;
     }
 
+    public void openConnection() throws NamingException, SQLException {
+        connection = ConnectionService.getConnection();
+    }
+
     public void closeConnection() throws NamingException, SQLException {
-        try {
-            ConnectionServicePubDB.getConnection().close();
-        } catch (NamingException ex) {
-            Logger.getLogger(Author.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        connection.close();
     }
 }

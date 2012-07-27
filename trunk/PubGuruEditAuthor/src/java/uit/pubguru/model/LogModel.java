@@ -4,17 +4,13 @@
  */
 package uit.pubguru.model;
 
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.PreparedStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.naming.NamingException;
 import uit.pubguru.dbconnection.ConnectionService;
-import uit.pubguru.dbconnection.ConnectionServicePubDB;
 
 /**
  *
@@ -26,6 +22,7 @@ public class LogModel {
     private int feedBackId;
     private String dateEdit;
     private String comment;
+    private Connection connection;
 
     /**
      * @return the logId
@@ -111,24 +108,28 @@ public class LogModel {
 //        }
 //        return false;
 //    }
-    public boolean insert_log() {
+    public boolean insert_log() throws SQLException, NamingException {
+
+        boolean in = false;
         try {
-            Connection connection = ConnectionService.getConnection();
+            openConnection();
             String sql = "INSERT INTO log (dateEdit, comment) " + "VALUES(?,?)";
             PreparedStatement stm = (PreparedStatement) connection.prepareStatement(sql);
             stm.setString(1, this.getDateEdit());
             stm.setString(2, this.getComment());
             int result = stm.executeUpdate();
             stm.close();
-           
+
             if (result > 0) {
-                return true;
+                in = true;
             }
 
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            closeConnection();
         }
-        return false;
+        return in;
     }
 
     public String datetime() {
@@ -138,12 +139,12 @@ public class LogModel {
         return (sdf.format(cal.getTime()));
         // String dateFormat = "yyyy-MM-dd ':' hh:mm:ss";
     }
-     public void closeConnection() throws NamingException, SQLException
-    {
-        try {
-            ConnectionServicePubDB.getConnection().close();
-        } catch (NamingException ex) {
-            Logger.getLogger(Author.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+    public void openConnection() throws NamingException, SQLException {
+        connection = ConnectionService.getConnection();
+    }
+
+    public void closeConnection() throws NamingException, SQLException {
+        connection.close();
     }
 }

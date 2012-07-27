@@ -4,18 +4,13 @@
  */
 package uit.pubguru.model;
 
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.PreparedStatement;
-import java.sql.DriverManager;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.naming.NamingException;
-import uit.pubguru.dbconnection.ConnectionService;
 import uit.pubguru.dbconnection.ConnectionServicePubDB;
-import uit.pubguru.model.Author_EditModel;
 
 /**
  *
@@ -31,23 +26,23 @@ public class Author {
     private int idOrg;
     private String url;
     private String comment;
+    private Connection connection;
+    //  private  Connection connection ;
 
-    public Author() {
+    public Author() throws Exception {
         this.author_Id = 0;
         this.authorName = "";
         this.emailAddress = "";
         this.imageUrl = "";
         this.website = "";
         this.url = "";
-
     }
 
-    public Author(String authorname, String imageurl, String emailaddress, String website) {
+    public Author(String authorname, String imageurl, String emailaddress, String website) throws Exception {
         this.authorName = authorname;
         this.imageUrl = imageurl;
         this.emailAddress = emailaddress;
         this.website = website;
-
     }
 
     /**
@@ -166,12 +161,13 @@ public class Author {
     }
 
     // get author by authorEdit_Id
-    public Author getAuthorById(int authorid) {
+    public Author getAuthorById(int authorid) throws SQLException, NamingException, Exception {
         Author author = new Author();
         try {
-            Connection connection = ConnectionServicePubDB.getConnection();
+            openConnection();
             String sql = "Select * from author where idAuthor = ? ";
-            PreparedStatement stm = (PreparedStatement) connection.prepareStatement(sql);
+            PreparedStatement stm = (PreparedStatement) getConnection().prepareStatement(sql);
+            // PreparedStatement stm = (PreparedStatement) PubGuruConst.connection.prepareStatement(sql);
             stm.setInt(1, authorid);
             ResultSet rs = stm.executeQuery();
             boolean resultq = rs.next();
@@ -179,6 +175,7 @@ public class Author {
                 int authorId = rs.getInt("idAuthor");
                 String authorName = rs.getString("authorName");
                 String imageUrl = rs.getString("image");
+                System.out.print("ASDFASDF " + imageUrl);
                 String emailAddress = rs.getString("emailAddress");
                 String website = rs.getString("website");
                 String url = rs.getString("url");
@@ -190,26 +187,29 @@ public class Author {
                 author.setUrl(url);
             }
             rs.close();
-            stm.close();          
+            stm.close();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            closeConnection();
         }
         return author;
     }
     // get list author_edit by author id
 
-    public Author[] list_Author(int start, int limit) {
+    public Author[] list_Author(int start, int limit) throws SQLException, NamingException, Exception {
+        Author[] result = null;
         try {
-           Connection connection = ConnectionServicePubDB.getConnection();
-            String sql = "Select * from author limit ?,? ";
-            PreparedStatement stm = (PreparedStatement) connection.prepareStatement(sql);
+            openConnection();
+            String sql = "Select * from cspublicationcrawler.author limit ?,? ";
+            // PreparedStatement stm = (PreparedStatement) PubGuruConst.connection.prepareStatement(sql);
+            PreparedStatement stm =  this.connection.prepareStatement(sql);
             stm.setInt(1, start);
             stm.setInt(2, limit);
             System.out.print(sql);
             ResultSet rs = stm.executeQuery();
             ArrayList list = new ArrayList();
             while (rs.next()) {
-
                 int authorId = rs.getInt("idAuthor");
                 System.out.print(authorId);
                 String authorName = rs.getString("authorName");
@@ -225,22 +225,29 @@ public class Author {
                 author.setWebsite(website);
                 list.add(author);
             }
-            Author[] result = new Author[list.size()];
+            result = new Author[list.size()];
             list.toArray(result);
             rs.close();
             stm.close();
+
             return result;
+
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            closeConnection();
+            System.out.println("Close");
         }
-        return null;
+        return result;
     }
 
-    public boolean updateAuthor(String authorName, String image, String emailAddress, String website, int idAuthor) {
+    public boolean updateAuthor(String authorName, String image, String emailAddress, String website, int idAuthor) throws SQLException, NamingException {
+        boolean up = false;
         try {
-           Connection connection = ConnectionServicePubDB.getConnection();
+            openConnection();
             String sql = "Update author set authorName = ?,image = ?,emailAddress =?, website = ? where idAuthor = ?";
-            PreparedStatement stm = (PreparedStatement) connection.prepareStatement(sql);
+            PreparedStatement stm = (PreparedStatement) getConnection().prepareStatement(sql);
+            //  PreparedStatement stm = (PreparedStatement) PubGuruConst.connection.prepareStatement(sql);
             stm.setString(1, authorName);
             stm.setString(2, image);
             stm.setString(3, emailAddress);
@@ -249,20 +256,37 @@ public class Author {
             int result = stm.executeUpdate();
             stm.close();
             if (result > 0) {
-                return true;
+                up = true;
             }
 
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            closeConnection();
+            //  ConnectionServicePubDB.closeConnection();
         }
-        return false;
+        return up;
     }
-    public void closeConnection() throws NamingException, SQLException
-    {
-        try {
-            ConnectionServicePubDB.getConnection().close();
-        } catch (NamingException ex) {
-            Logger.getLogger(Author.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+    public void openConnection() throws NamingException, SQLException {
+        setConnection((Connection) ConnectionServicePubDB.getConnection());
+    }
+
+    public void closeConnection() throws NamingException, SQLException {
+        getConnection().close();
+    }
+
+    /**
+     * @return the connection
+     */
+    public Connection getConnection() {
+        return connection;
+    }
+
+    /**
+     * @param connection the connection to set
+     */
+    public void setConnection(Connection connection) {
+        this.connection = connection;
     }
 }
